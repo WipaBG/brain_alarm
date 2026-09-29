@@ -1,0 +1,100 @@
+# XcodeGen project spec. Generate the Xcode project on a Mac with:
+#   brew install xcodegen
+#   xcodegen generate
+# Then open BrainAlarm.xcodeproj, set your Team under Signing, and run on a physical iPhone.
+#
+# Replace "com.example" with your own reverse-DNS prefix everywhere in this file.
+
+name: BrainAlarm
+
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    TARGETED_DEVICE_FAMILY: "1"
+    # Fill in your Apple Developer team ID, or set it in Xcode's Signing tab.
+    DEVELOPMENT_TEAM: ""
+
+targets:
+  BrainAlarm:
+    type: application
+    platform: iOS
+    sources:
+      - path: BrainAlarm
+    dependencies:
+      - target: BrainAlarmWidgets
+        embed: true
+    info:
+      path: BrainAlarm/Info.plist
+      properties:
+        CFBundleDisplayName: BrainAlarm
+        NSAlarmKitUsageDescription: BrainAlarm needs to schedule alarms that ring even in Silent mode.
+        NSSupportsLiveActivities: true
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+    entitlements:
+      path: BrainAlarm/BrainAlarm.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.example.brainalarm
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.brainalarm
+
+  BrainAlarmWidgets:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: BrainAlarmWidgets
+      # Files compiled into both the app and the widget. The widget must know the
+      # metadata type to render the Live Activity, and the intent type to offer the
+      # "Solve" button. Nothing here imports AlarmKit except the Live Activity itself.
+      - path: BrainAlarm/Models/BrainAlarmMetadata.swift
+      - path: BrainAlarm/Models/AppGroup.swift
+      - path: BrainAlarm/Services/SessionState.swift
+      - path: BrainAlarm/Intents/OpenPuzzleIntent.swift
+    info:
+      path: BrainAlarmWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: BrainAlarm Widgets
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: BrainAlarmWidgets/BrainAlarmWidgets.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.example.brainalarm
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.brainalarm.widgets
+
+  BrainAlarmTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: BrainAlarmTests
+    dependencies:
+      - target: BrainAlarm
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.brainalarm.tests
+
+schemes:
+  BrainAlarm:
+    build:
+      targets:
+        BrainAlarm: all
+        BrainAlarmWidgets: all
+        BrainAlarmTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - BrainAlarmTests

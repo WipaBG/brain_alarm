@@ -3,12 +3,12 @@
 #   xcodegen generate
 # Then open BrainAlarm.xcodeproj, set your Team under Signing, and run on a physical iPhone.
 #
-# Replace "com.example" with your own reverse-DNS prefix everywhere in this file.
+
 
 name: BrainAlarm
 
 options:
-  bundleIdPrefix: com.example
+  bundleIdPrefix: com.nyagolov
   deploymentTarget:
     iOS: "26.0"
   createIntermediateGroups: true
@@ -42,10 +42,10 @@ targets:
       path: BrainAlarm/BrainAlarm.entitlements
       properties:
         com.apple.security.application-groups:
-          - group.com.example.brainalarm
+          - group.com.nyagolov.brainalarm
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.brainalarm
+        PRODUCT_BUNDLE_IDENTIFIER: com.nyagolov.brainalarm
 
   BrainAlarmWidgets:
     type: app-extension
@@ -69,10 +69,10 @@ targets:
       path: BrainAlarmWidgets/BrainAlarmWidgets.entitlements
       properties:
         com.apple.security.application-groups:
-          - group.com.example.brainalarm
+          - group.com.nyagolov.brainalarm
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.brainalarm.widgets
+        PRODUCT_BUNDLE_IDENTIFIER: com.nyagolov.brainalarm.widgets
 
   BrainAlarmTests:
     type: bundle.unit-test
@@ -83,7 +83,7 @@ targets:
       - target: BrainAlarm
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.example.brainalarm.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.nyagolov.brainalarm.tests
 
 schemes:
   BrainAlarm:

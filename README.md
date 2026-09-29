@@ -16,8 +16,8 @@ open BrainAlarm.xcodeproj
 
 Before the first build:
 
-1. In `project.yml`, replace `com.example` with your own reverse-DNS prefix (three places) and set `DEVELOPMENT_TEAM`, or pick your team in Xcode's Signing tab for both targets.
-2. Make the same replacement in `BrainAlarm/Models/AppGroup.swift` so the App Group identifier matches the entitlements.
+1. Bundle IDs use the `com.nyagolov` prefix. Set `DEVELOPMENT_TEAM` in `project.yml`, or pick your team in Xcode's Signing tab for both targets.
+2. `AppGroup.identifier` in `BrainAlarm/Models/AppGroup.swift` must stay in sync with the `com.apple.security.application-groups` entries in `project.yml`.
 3. Run the `BrainAlarm` scheme on your iPhone.
 
 Unit tests (Simulator is fine for these; they do not touch AlarmKit):
